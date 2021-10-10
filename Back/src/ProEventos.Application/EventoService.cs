@@ -58,7 +58,7 @@ namespace ProEventos.Application
         }
 
         public async Task<bool> DeleteEvento(int eventoId)
-        {
+        {   
             try
             {
                 var evento = await _eventoPersist.GetAllEventoByIdAsync(eventoId, false);
@@ -74,19 +74,49 @@ namespace ProEventos.Application
             }
         }
 
-        public Task<Evento> GetAllEventoByIdAsync(int eventoId, bool includePalestrantes)
+        public async Task<Evento[]> GetAllEventosAsync(bool includePalestrantes = false)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                 var eventos = await _eventoPersist.GetAllEventosAsync(includePalestrantes);
+                 if (eventos == null) return null;
+
+                 return eventos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task<Evento[]> GetAllEventosAsync(bool includePalestrantes)
+        public async Task<Evento> GetAllEventoByIdAsync(int eventoId, bool includePalestrantes)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                 var eventos = await _eventoPersist.GetAllEventoByIdAsync(eventoId, includePalestrantes);
+                 if (eventos == null) return null;
+
+                 return eventos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task<Evento[]> GetAllEventosByTemaAsync(string tema, bool includePalestrantes)
+        public async Task<Evento[]> GetAllEventosByTemaAsync(string tema, bool includePalestrantes)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                 var eventos = await _eventoPersist.GetAllEventosByTemaAsync(tema, includePalestrantes);
+                 if (eventos == null) return null;
+
+                 return eventos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            } 
         }
     }
 }
