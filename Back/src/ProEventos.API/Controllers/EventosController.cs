@@ -19,11 +19,11 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> ListarTodos()
         {
             try
             {
-                 var eventos = await this.eventoService.GetAllEventosAsync(true);
+                 var eventos = await this.eventoService.ListarTodosEventosAsync(true);
                  if (eventos == null) return NoContent();
 
                  return Ok(eventos);
@@ -35,12 +35,12 @@ namespace ProEventos.API.Controllers
             }
         }
 
-        [HttpGet("id/{id}")]
-        public async Task<IActionResult> GetId(int id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> BuscarPorId(int id)
         {
             try
             {
-                 var evento = await this.eventoService.GetEventoByIdAsync(id, true);
+                 var evento = await this.eventoService.BuscarEventoPorIdAsync(id, true);
                  if (evento == null) return NoContent();
 
                  return Ok(evento);
@@ -53,11 +53,11 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpGet("{tema}/tema")]
-        public async Task<IActionResult> GetTema(string tema)
+        public async Task<IActionResult> BuscarPorTema(string tema)
         {
             try
             {
-                 var eventos = await this.eventoService.GetAllEventosByTemaAsync(tema, true);
+                 var eventos = await this.eventoService.BuscarEventosPorTemaAsync(tema, true);
                  if (eventos == null) return NoContent();
 
                  return Ok(eventos);
@@ -74,7 +74,7 @@ namespace ProEventos.API.Controllers
         {
             try
             {
-                 var evento = await this.eventoService.AddEventos(model);
+                 var evento = await this.eventoService.IncluirEvento(model);
                  if(evento == null) return NoContent();
 
                  return Ok(evento);
@@ -91,7 +91,7 @@ namespace ProEventos.API.Controllers
         {
             try
             {
-                 var evento = await this.eventoService.UpdateEvento(id, model);
+                 var evento = await this.eventoService.EditarEvento(id, model);
                  if(evento == null) return NoContent();
 
                  return Ok(evento);
@@ -108,10 +108,12 @@ namespace ProEventos.API.Controllers
         {
             try
             {
-                 var evento = await this.eventoService.DeleteEvento(id);
-                 if(!evento) return BadRequest("Erro ao tentar excluir evento.");
+                 var evento = await eventoService.BuscarEventoPorIdAsync(id, true);
+                 if(evento == null) return NoContent();
 
-                 return Ok(evento);
+                 return await eventoService.ExcluirEvento(id)
+                        ? Ok(new { message = "Deletado"})
+                        : throw new Exception("Ocorreu um problema ao deletar o evento.");
             }
             catch (Exception ex)
             {
