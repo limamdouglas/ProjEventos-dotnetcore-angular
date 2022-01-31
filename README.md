@@ -1,4 +1,9 @@
 # ProjEventos - Fullstack .NET Core + Angular
+Projeto Web utilizando Tecnologia API RESTful com o ASP .NET Core 5 e Entity Framework Core 5 e como Front-End Angular 11.
+O que foi feito até agora?
+- Implementação de uma API RESTful com o ASP .NET Core e EF Core 5. Organizado em multiplas camadas, utilizando DTO's e Data Annotations. Utilizando também as Migrations para criar as entidades no Bando de Dados.
+- Implementação de uma Aplicação WEB com Angular 11.
+- Criação completa do CRUD de Eventos.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.3.
 
